@@ -3,7 +3,7 @@
 **Maestria en Arquitectura de Software**  
 **Asignatura: Testing y Validacion de Software**
 
-**Entrega:** Solucion Unidad 3 - Estrategias y Planificacion de Pruebas  
+**Entrega:** Solucion Unidad 3
 **Estudiante:** Andres Felipe Rodriguez  
 **Fecha:** 2026-06-08
 
