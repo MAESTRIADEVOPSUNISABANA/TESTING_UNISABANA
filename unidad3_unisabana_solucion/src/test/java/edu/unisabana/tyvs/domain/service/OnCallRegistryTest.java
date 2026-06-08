@@ -7,6 +7,7 @@ import org.junit.Test;
 
 public class OnCallRegistryTest {
 
+    // Verifica que una referencia nula no se pueda registrar y retorne INVALID.
     @Test
     public void shouldReturnInvalidWhenEngineerIsNull() {
         // Given
@@ -19,6 +20,7 @@ public class OnCallRegistryTest {
         Assert.assertEquals(RegisterResult.INVALID, result);
     }
 
+    // Verifica que los IDs no positivos (0 o negativos) sean rechazados como INVALID.
     @Test
     public void shouldRejectWhenEmployeeIdIsZeroOrNegative() {
         // Given
@@ -35,6 +37,7 @@ public class OnCallRegistryTest {
         Assert.assertEquals(RegisterResult.INVALID, negativeIdResult);
     }
 
+    // Verifica que un ingeniero inactivo no pueda entrar al turno on-call.
     @Test
     public void shouldRejectInactiveEngineer() {
         // Given
@@ -48,6 +51,7 @@ public class OnCallRegistryTest {
         Assert.assertEquals(RegisterResult.INACTIVE, result);
     }
 
+    // Verifica el limite inferior de experiencia: valores menores a 0 son invalidos.
     @Test
     public void shouldRejectInvalidExperienceBelowZero() {
         // Given
@@ -61,6 +65,7 @@ public class OnCallRegistryTest {
         Assert.assertEquals(RegisterResult.INVALID_EXPERIENCE, result);
     }
 
+    // Verifica el limite superior de experiencia: valores mayores a 40 son invalidos.
     @Test
     public void shouldRejectInvalidExperienceOverForty() {
         // Given
@@ -74,6 +79,7 @@ public class OnCallRegistryTest {
         Assert.assertEquals(RegisterResult.INVALID_EXPERIENCE, result);
     }
 
+    // Verifica que un nivel de certificacion menor al minimo requerido sea rechazado.
     @Test
     public void shouldRejectUnderqualifiedEngineerAtLevelOne() {
         // Given
@@ -87,6 +93,7 @@ public class OnCallRegistryTest {
         Assert.assertEquals(RegisterResult.UNDERQUALIFIED, result);
     }
 
+    // Verifica el caso valido minimo de certificacion (nivel 2) con experiencia correcta.
     @Test
     public void shouldAcceptQualifiedEngineerAtLevelTwoWithValidExperience() {
         // Given
@@ -100,6 +107,7 @@ public class OnCallRegistryTest {
         Assert.assertEquals(RegisterResult.VALID, result);
     }
 
+    // Verifica el valor limite valido de experiencia en 40 anios.
     @Test
     public void shouldAcceptBoundaryExperienceAtForty() {
         // Given
@@ -113,6 +121,7 @@ public class OnCallRegistryTest {
         Assert.assertEquals(RegisterResult.VALID, result);
     }
 
+    // Verifica que no se permita registrar dos veces el mismo employeeId.
     @Test
     public void shouldRejectDuplicatedEngineerById() {
         // Given
