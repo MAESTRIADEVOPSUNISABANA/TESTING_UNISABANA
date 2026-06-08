@@ -9,6 +9,9 @@ on:
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: unidad3_unisabana_solucion
 
     steps:
       - name: Checkout repository
@@ -20,6 +23,7 @@ jobs:
           distribution: temurin
           java-version: "17"
           cache: maven
+          cache-dependency-path: unidad3_unisabana_solucion/pom.xml
 
       - name: Build, test and coverage check
         run: mvn -B clean verify
@@ -29,4 +33,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: jacoco-report
-          path: target/site/jacoco
+          path: unidad3_unisabana_solucion/target/site/jacoco
