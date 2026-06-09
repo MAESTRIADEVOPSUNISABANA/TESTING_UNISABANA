@@ -72,4 +72,53 @@ public class RegistryWithMockTest {
         assertEquals(RegisterResult.DUPLICATED, result);
         verify(repo, never()).save(anyInt(), anyString(), anyInt(), anyBoolean());
     }
+
+    @Test
+    public void shouldReturnInvalidWhenPersonIsNull() {
+        RegisterResult result = registry.registerVoter(null);
+
+        assertEquals(RegisterResult.INVALID, result);
+        verifyNoInteractions(repo);
+    }
+
+    @Test
+    public void shouldReturnInvalidWhenIdIsZeroOrNegative() {
+        Person p = new Person("Ana", 0, 25, Gender.FEMALE, true);
+
+        RegisterResult result = registry.registerVoter(p);
+
+        assertEquals(RegisterResult.INVALID, result);
+        verifyNoInteractions(repo);
+    }
+
+    @Test
+    public void shouldReturnDeadWhenPersonIsNotAlive() {
+        Person p = new Person("Ana", 10, 25, Gender.FEMALE, false);
+
+        RegisterResult result = registry.registerVoter(p);
+
+        assertEquals(RegisterResult.DEAD, result);
+        verifyNoInteractions(repo);
+    }
+
+    @Test
+    public void shouldReturnUnderageWhenAgeIsLowerThan18() {
+        Person p = new Person("Ana", 10, 17, Gender.FEMALE, true);
+
+        RegisterResult result = registry.registerVoter(p);
+
+        assertEquals(RegisterResult.UNDERAGE, result);
+        verifyNoInteractions(repo);
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void shouldWrapPersistenceExceptionWhenSaveFails() throws Exception {
+        when(repo.existsById(15)).thenReturn(false);
+        doThrow(new RuntimeException("forced failure"))
+                .when(repo).save(anyInt(), anyString(), anyInt(), anyBoolean());
+
+        Person p = new Person("Ana", 15, 25, Gender.FEMALE, true);
+
+        registry.registerVoter(p);
+    }
 }
