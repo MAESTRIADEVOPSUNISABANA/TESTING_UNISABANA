@@ -2,9 +2,9 @@ name: CI Taller Integracion
 
 on:
   push:
-    branches: ["main", "master"]
+    branches: ["main_unidad4"]
   pull_request:
-    branches: ["main", "master"]
+    branches: ["main_unidad4"]
 
 jobs:
   build-test:

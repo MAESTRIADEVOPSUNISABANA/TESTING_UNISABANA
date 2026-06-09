@@ -47,4 +47,26 @@ public class RegistryControllerIT {
         assert resp.getStatusCode() == HttpStatus.OK;
         assert "VALID".equals(resp.getBody());
     }
+
+    @Test
+    public void shouldReturnUnderageForMinorPerson() {
+        String json = "{\"name\":\"Luis\",\"id\":101,\"age\":16,\"gender\":\"MALE\",\"alive\":true}";
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        ResponseEntity<String> resp = rest.postForEntity("/register", new HttpEntity<>(json, headers), String.class);
+
+        assert resp.getStatusCode() == HttpStatus.OK;
+        assert "UNDERAGE".equals(resp.getBody());
+    }
+
+    @Test
+    public void shouldReturnDeadForNotAlivePerson() {
+        String json = "{\"name\":\"Carlos\",\"id\":102,\"age\":35,\"gender\":\"MALE\",\"alive\":false}";
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        ResponseEntity<String> resp = rest.postForEntity("/register", new HttpEntity<>(json, headers), String.class);
+
+        assert resp.getStatusCode() == HttpStatus.OK;
+        assert "DEAD".equals(resp.getBody());
+    }
 }
